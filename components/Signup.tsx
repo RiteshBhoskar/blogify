@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import Link from 'next/link'
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
@@ -16,6 +16,10 @@ export default function SignUpPage() {
   const [password, setPassword] = useState('')
   const [confirmPassword, setConfirmPassword] = useState('')
   const [isSubmitting, setIsSubmitting] = useState(false)
+
+  useEffect(() => {
+    document.getElementById("name")?.focus();
+  }, []);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -57,28 +61,53 @@ export default function SignUpPage() {
       return
     }
 
-
-  try {
-    const res = await fetch("/api/auth/signup", {
+    setIsSubmitting(true);
+    const signUpLoadingId = toast.loading("Signing up...");
+    const res = await fetch("/api/signup", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: {
+           "Content-Type": "application/json"
+          },
         body: JSON.stringify({ name, email, password }),
     });
-
+    toast.dismiss(signUpLoadingId);
+    const data = await res.json();
     if (!res.ok) {
-      toast.error("Failed to sign up.");
+      toast.error(data.error);
+      setIsSubmitting(false);
       return
+    } 
+    
+    toast.success(data.message);
+
+    if(data.success) {
+     setName("");
+     setEmail("");
+     setPassword("");
+     setConfirmPassword("");
+     document.getElementById("name")?.focus();
+     const loadingToastId = toast.loading("Signing in...");
+
+      const signInResponse  = await signIn("credentials", {
+        email,
+        password,
+        redirect: true,
+        callbackUrl: "/home",
+      })
+
+      toast.dismiss(loadingToastId);
+
+      if(signInResponse?.error){
+        toast.error(signInResponse.error);
+        setIsSubmitting(false);
+      }else {
+        toast.success("Signed in successfully");
+      }
+
+    }else {
+      toast.error(data.error);
+      setIsSubmitting(false);
     }
-
-    const sigin  = await signIn("credentials", {
-      email,
-      password,
-      redirect: true,
-      callbackUrl: "/home",
-    })
-  } catch (error) {
-
-  }
 }
 
   return (
@@ -105,6 +134,7 @@ export default function SignUpPage() {
                   placeholder="Enter your name"
                   value={name}
                   onChange={(e) => setName(e.target.value)}
+                  disabled={isSubmitting}
                   required
                 />
               </div>
@@ -116,6 +146,7 @@ export default function SignUpPage() {
                   placeholder="Enter your email"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
+                  disabled={isSubmitting}
                   required
                 />
               </div>
@@ -127,6 +158,7 @@ export default function SignUpPage() {
                   placeholder="Create a password"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
+                  disabled={isSubmitting}
                   required
                 />
               </div>
@@ -138,6 +170,7 @@ export default function SignUpPage() {
                   placeholder="Confirm your password"
                   value={confirmPassword}
                   onChange={(e) => setConfirmPassword(e.target.value)}
+                  disabled={isSubmitting}
                   required
                 />
               </div>
@@ -151,7 +184,9 @@ export default function SignUpPage() {
           <CardFooter className="flex flex-col items-center space-y-2">
             <p className="text-sm text-gray-500 dark:text-gray-400">
               Already have an account?{' '}
-              <Link href="/login" className="text-blue-600 hover:underline dark:text-blue-400">
+              <Link href="/login" 
+              replace
+              className="text-blue-600 hover:underline dark:text-blue-400">
                 Log in
               </Link>
             </p>
