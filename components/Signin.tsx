@@ -41,12 +41,6 @@ export default function SignInPage() {
 
   return (
     <div className="flex flex-col min-h-screen bg-gray-50 dark:bg-gray-900">
-      <header className="px-4 lg:px-6 h-14 flex items-center bg-white dark:bg-gray-800 shadow-sm">
-        <Link className="flex items-center justify-center" href="/">
-          <Pencil className="h-6 w-6 text-gray-800 dark:text-gray-200" />
-          <span className="ml-2 text-2xl font-bold text-gray-800 dark:text-gray-200">Blogify</span>
-        </Link>
-      </header>
       <main className="flex-1 flex items-center justify-center p-4">
         <Card className="w-full max-w-md">
           <CardHeader>

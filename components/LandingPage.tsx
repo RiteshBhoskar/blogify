@@ -2,27 +2,22 @@ import Link from 'next/link'
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Pencil, Feather, Share2, Zap, ArrowRight } from 'lucide-react'
+import { authOptions } from '@/lib/auth'
+import { getServerSession } from 'next-auth'
 
-export default function LandingPage() {
+export default async function LandingPage() {
+  const session = await getServerSession(authOptions);
+
+  if (session) {
+    return {
+      redirect: {
+        destination: "/home",
+        permanent: false,
+      },
+    };
+  }
   return (
     <div className="flex flex-col min-h-screen bg-gray-50 dark:bg-gray-900">
-      <header className="px-4 lg:px-6 h-14 flex items-center bg-white dark:bg-gray-800 sticky top-0 z-50 shadow-sm">
-        <Link className="flex items-center justify-center" href="#">
-          <Pencil className="h-6 w-6 text-gray-800 dark:text-gray-200" />
-          <span className="ml-2 text-2xl font-bold text-gray-800 dark:text-gray-200">Blogify</span>
-        </Link>
-        <nav className="ml-auto flex gap-4 sm:gap-6">
-          <Link className="text-sm font-medium text-gray-600 hover:text-gray-900 dark:text-gray-300 dark:hover:text-gray-50 transition-colors" href="#">
-            Features
-          </Link>
-          <Link className="text-sm font-medium text-gray-600 hover:text-gray-900 dark:text-gray-300 dark:hover:text-gray-50 transition-colors" href="#">
-            About
-          </Link>
-          <Link className="text-sm font-medium text-gray-600 hover:text-gray-900 dark:text-gray-300 dark:hover:text-gray-50 transition-colors" href="#">
-            Contact
-          </Link>
-        </nav>
-      </header>
       <main className="flex-1">
         <section className="w-full py-12 md:py-24 lg:py-32 xl:py-48 px-4 sm:px-6 lg:px-8">
           <div className="container mx-auto">

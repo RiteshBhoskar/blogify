@@ -1,19 +1,18 @@
-import SignInPage from "@/components/Signin";
+import HomePage from "@/components/HomePage";
 import { authOptions } from "@/lib/auth";
 import { getServerSession } from "next-auth";
 
 export default async function () {
     const session = await getServerSession(authOptions);
-
-    if (session) {
+    if (!session) {
         return {
             redirect: {
-                destination: "/home",
+                destination: "/",
                 permanent: false,
             },
         };
     }
     return (
-            <SignInPage />
+        <HomePage />
     )
 }
