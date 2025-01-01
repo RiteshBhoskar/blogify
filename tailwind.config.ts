@@ -65,7 +65,16 @@ export default {
   			lg: 'var(--radius)',
   			md: 'calc(var(--radius) - 2px)',
   			sm: 'calc(var(--radius) - 4px)'
-  		}
+  		},
+		  fontFamily: {
+			satoshi: ["Satoshi", "sans-serif"]
+		},
+		fontWeight: {
+			light: '300',
+			regular: '400',
+			medium: '500',
+			bold:'700',
+		}
   	}
   },
   plugins: [require("tailwindcss-animate")],

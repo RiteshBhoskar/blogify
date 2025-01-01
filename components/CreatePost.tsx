@@ -82,7 +82,6 @@ export default function CreatePostPage() {
         setCategory("")
         setContent("")
         setIsLoading(false)
-        router.back()
       } catch(error) {
         setIsLoading(false);
         toast.dismiss(loadingToastId);
