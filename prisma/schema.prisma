@@ -14,20 +14,78 @@ datasource db {
 }
 
 model User {
-  id        String   @id @default(uuid())
-  email     String   @unique
+  id        String    @id @default(uuid())
+  email     String    @unique
   password  String
   name      String?
   blogs     Blog[]
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  likes     Like[]
+  comments  Comment[]
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
 }
 
 model Blog {
-  id        String   @id @default(uuid())
+  id        String    @id @default(uuid())
   title     String
   content   String
   authorId  String
-  author    User     @relation(fields: [authorId], references: [id])
+  category  Category
+  likes     Like[]
+  comments  Comment[]
+  author    User      @relation(fields: [authorId], references: [id])
+  createdAt DateTime  @default(now())
+}
+
+model Like {
+  id        String   @id @default(uuid())
+  userId    String
+  blogId    String
+  user      User     @relation(fields: [userId], references: [id])
+  blog      Blog     @relation(fields: [blogId], references: [id])
   createdAt DateTime @default(now())
+
+  @@unique([userId, blogId])
+}
+
+model Comment {
+  id        String   @id @default(uuid())
+  content   String
+  userId    String
+  blogId    String
+  user      User     @relation(fields: [userId], references: [id])
+  blog      Blog     @relation(fields: [blogId], references: [id])
+  createdAt DateTime @default(now())
+}
+
+enum Category {
+  TECHNOLOGY
+  LIFESTYLE
+  EDUCATION
+  BUSINESS
+  ENTERTAINMENT
+  HEALTH
+  FITNESS
+  FOOD
+  TRAVEL
+  FASHION
+  FINANCE
+  ART
+  MUSIC
+  SCIENCE
+  HISTORY
+  POLITICS
+  SPORTS
+  PERSONAL
+  RELATIONSHIPS
+  PARENTING
+  CULTURE
+  NATURE
+  DIY
+  BOOKS
+  PHOTOGRAPHY
+  GAMING
+  SPIRITUALITY
+  SELF_HELP
+  NEWS
 }

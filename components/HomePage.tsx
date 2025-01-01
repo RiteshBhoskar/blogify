@@ -5,6 +5,8 @@ import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
 import BloggingSidebar from './Sidebar'
+import { getServerSession } from 'next-auth'
+import { authOptions } from '@/lib/auth'
 
 export default function HomePage() {
     return (
@@ -14,8 +16,8 @@ export default function HomePage() {
     )
 }
 
-function MainHomePage() {
-  // This would typically come from a database or API
+async function MainHomePage() {
+    const session = await getServerSession(authOptions);
   const recentPosts = [
     { id: 1, title: "Getting Started with Blogify", excerpt: "Learn how to make the most of your Blogify experience..." },
     { id: 2, title: "10 Tips for Better Blog Writing", excerpt: "Improve your writing skills with these essential tips..." },
@@ -30,7 +32,7 @@ function MainHomePage() {
 
   return (
     <div className="max-w-4xl mx-auto space-y-6">
-      <h2 className="text-2xl font-bold text-gray-900 dark:text-gray-100">Welcome back, User!</h2>
+      <h2 className="text-2xl font-bold text-gray-900 dark:text-gray-100">Welcome back, {session?.user.name}</h2>
       
       {/* Quick post creation */}
       <Card>

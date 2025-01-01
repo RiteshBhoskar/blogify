@@ -52,6 +52,7 @@ import {
 import { useSession } from "next-auth/react";
 import React from "react";
 import { Breadcrumb, BreadcrumbItem, BreadcrumbLink, BreadcrumbList } from "./ui/breadcrumb";
+import LogOutButton from "./Signout";
 
 const data = {
   navMain: [
@@ -221,9 +222,7 @@ export default function BloggingSidebar({ children } : { children: React.ReactNo
                     </DropdownMenuItem>
                   </DropdownMenuGroup>
                   <DropdownMenuSeparator />
-                  <DropdownMenuItem>
-                    <LogOut /> Log out
-                  </DropdownMenuItem>
+                  <LogOutButton />
                 </DropdownMenuContent>
               </DropdownMenu>
             </SidebarMenuItem>
@@ -238,7 +237,7 @@ export default function BloggingSidebar({ children } : { children: React.ReactNo
             <Breadcrumb>
               <BreadcrumbList>
                 <BreadcrumbItem className="hidden md:block">
-                  <BreadcrumbLink href="#">Dashboard</BreadcrumbLink>
+                  <BreadcrumbLink href="/home">Dashboard</BreadcrumbLink>
                 </BreadcrumbItem>
               </BreadcrumbList>
             </Breadcrumb>
