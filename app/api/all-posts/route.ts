@@ -1,9 +1,19 @@
+import { authOptions } from "@/lib/auth";
 import prisma from "@/lib/prisma";
+import { getServerSession } from "next-auth";
 import { NextResponse } from "next/server";
 
 
 export async function GET() {
     try {
+        const session = await getServerSession(authOptions);
+
+        if (!session) {
+            return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+        }
+
+        const userId = session.user.id;
+
         const allPosts = await prisma.blog.findMany({
             include: {
                 author: {
@@ -16,6 +26,9 @@ export async function GET() {
                         likes: true,
                         comments: true,
                     }
+                },
+                likes: {
+                    where: { userId: userId}
                 }
             }
         })
@@ -24,6 +37,7 @@ export async function GET() {
             ...post,
             likeCount: post._count.likes,
             commentCount: post._count.comments,
+            likedByCurrentUser: post.likes.length > 0,
         }));
 
         return NextResponse.json(postsWithLikeCount , { status: 200 });

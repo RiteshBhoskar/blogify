@@ -44,7 +44,7 @@ export async function PATCH(req: NextRequest) {
                 where: { blogId: postId },
               });
               
-              return NextResponse.json({ message: "Unliked the post." , likeCount , likedByUser: false}, { status: 200})
+              return NextResponse.json({ message: "Unliked the post." , likeCount , isLiked: false}, { status: 200})
         } else {
             await prisma.like.create({
                 data: {
@@ -57,7 +57,7 @@ export async function PATCH(req: NextRequest) {
                 where: { blogId: postId },
               });
               
-              return NextResponse.json({ message: "Liked the post." , likeCount ,  likedByUser: true} , { status: 201 })
+              return NextResponse.json({ message: "Liked the post." , likeCount ,  isLiked: true} , { status: 201 })
         }
     } catch (error) {
         console.error("Error updating like:", error);

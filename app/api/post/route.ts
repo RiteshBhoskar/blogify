@@ -1,9 +1,19 @@
+import { authOptions } from "@/lib/auth";
 import prisma from "@/lib/prisma";
+import { getServerSession } from "next-auth";
 import { NextRequest, NextResponse } from "next/server";
 
 
 
 export async function GET(req : NextRequest) {
+    const session = await getServerSession(authOptions);
+
+    if(!session){
+        return NextResponse.json({ error: "Unauthenticated User"} , { status: 401})
+    }
+
+    const userId = session.user.id;
+
     const { searchParams } = new URL(req.url);
     const id = searchParams.get("id");
 
@@ -27,6 +37,11 @@ export async function GET(req : NextRequest) {
                         likes:true,
                         comments: true,
                     }
+                },
+                likes: {
+                    where: {
+                        userId: userId
+                    }
                 }
             }
         })
@@ -40,6 +55,7 @@ export async function GET(req : NextRequest) {
         ...post,
         likeCount: post._count.likes,
         commentCount: post._count.comments,
+        likedByCurrentUser: post.likes.length > 0,
       }
 
         return NextResponse.json( postWithCounts  , { status: 200 });

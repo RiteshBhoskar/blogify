@@ -26,6 +26,7 @@ interface Post {
     createdAt: string;
     likeCount: number;
     commentCount: number;
+    likedByCurrentUser: boolean;
 }
 
 export default function BlogPostPage() {
@@ -47,8 +48,9 @@ export default function BlogPostPage() {
                 toast.error("Failed to fetch the post.")
             }
             const data = await res.json();
-            setPost(data);
             setLoading(false)
+            setPost(data);
+            setIsLiked(data.likedByCurrentUser)
         } catch (error) {
             setLoading(false)
             toast.error("Could not fetch the post. Please try again.");
@@ -73,11 +75,14 @@ export default function BlogPostPage() {
 
         if(!res.ok){
             toast.dismiss(loadingToastId);
-            toast.error(data.error || "Something went wrong.")
+            toast.error(data.error || "Failed to update like.")
         }
         toast.dismiss(loadingToastId);
-        setIsLiked(data.isLiked);
         toast.success(data.message);
+        if(post){
+            setPost({...post, likeCount: data.likeCount, likedByCurrentUser: data.isLiked});
+            setIsLiked(data.isLiked)
+        }
     } catch (error) {
         toast.error("Could not update like. Please try again.");
         console.error("Error updating like:", error);

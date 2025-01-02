@@ -78,7 +78,7 @@ export default function AllPosts() {
             setPosts((prevPosts) =>
                 prevPosts.map((post) =>
                     post.id === postId
-                 ? { ...post, likeCount: data.likeCount ,   likedByCurrentUser: !post.likedByCurrentUser }
+                 ? { ...post, likeCount: data.likeCount ,   likedByCurrentUser: data.isLiked }
                  : post
                 )
             );
