@@ -15,6 +15,9 @@ export async function GET() {
         const userId = session.user.id;
 
         const allPosts = await prisma.blog.findMany({
+            orderBy: {
+                createdAt: "desc",
+            },
             include: {
                 author: {
                     select: {
