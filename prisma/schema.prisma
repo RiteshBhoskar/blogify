@@ -40,17 +40,21 @@ model Blog {
 model Like {
   id        String   @id @default(uuid())
   userId    String
-  blogId    String
+  blogId    String?
   user      User     @relation(fields: [userId], references: [id])
-  blog      Blog     @relation(fields: [blogId], references: [id])
+  blog      Blog?    @relation(fields: [blogId], references: [id])
   createdAt DateTime @default(now())
+  Comment   Comment? @relation(fields: [commentId], references: [id])
+  commentId String?
 
   @@unique([userId, blogId])
+  @@unique([userId, commentId])
 }
 
 model Comment {
   id        String   @id @default(uuid())
   content   String
+  likes     Like[]
   userId    String
   blogId    String
   user      User     @relation(fields: [userId], references: [id])

@@ -32,6 +32,26 @@ export async function GET(req : NextRequest) {
                         name: true,
                     }
                 },
+                comments: {
+                    orderBy: {
+                        createdAt: 'desc'
+                    },
+                    select: {
+                        id: true,
+                        content: true,
+                        createdAt: true,
+                        user: {
+                            select: {
+                                name: true
+                            }
+                        },
+                        likes: {
+                            select: {
+                                userId: true,
+                            }
+                        }
+                    }
+                },
                 _count: {
                     select: {
                         likes:true,
@@ -56,6 +76,14 @@ export async function GET(req : NextRequest) {
         likeCount: post._count.likes,
         commentCount: post._count.comments,
         likedByCurrentUser: post.likes.length > 0,
+        comments: post.comments.map(comment => ({
+            ...comment,
+            author: {
+                name: comment.user.name
+            },
+            likes: comment.likes.length,
+            likedByCurrentUser: comment.likes.some(like => like.userId === userId)
+        }))
       }
 
         return NextResponse.json( postWithCounts  , { status: 200 });

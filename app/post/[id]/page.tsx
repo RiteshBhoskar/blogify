@@ -1,7 +1,7 @@
 'use client'
 
 import { useEffect, useState } from 'react'
-import { useParams} from 'next/navigation'
+import { useParams, useRouter} from 'next/navigation'
 import Link from 'next/link'
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { Badge } from "@/components/ui/badge"
@@ -10,12 +10,19 @@ import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/componen
 import { Separator } from "@/components/ui/separator"
 import { Heart, MessageCircle, Share2, ArrowLeft } from 'lucide-react'
 import { toast } from 'sonner'
+import { CommentSection } from '@/components/CommentSection'
 
 interface Author {
     name: string;
-    avatar?: string | null;
 }
 
+interface Comment {
+  id: string; 
+  author: Author;
+  content: string;
+  likes: number;
+  createdAt: string;
+}
 
 interface Post {
     id: string;
@@ -25,9 +32,10 @@ interface Post {
     author: Author;
     createdAt: string;
     likeCount: number;
-    commentCount: number;
+    comments: Comment[];
     likedByCurrentUser: boolean;
 }
+
 
 export default function BlogPostPage() {
   const params = useParams();
@@ -36,6 +44,25 @@ export default function BlogPostPage() {
   const [post, setPost] = useState<Post | null>(null);
   const [isLiked, setIsLiked] = useState(false);
   const [loading , setLoading] = useState(false);
+
+  const handleShare = () => {
+    const currentUrl = window.location.href;
+
+    if(navigator.share){
+      navigator.share({
+        title: post?.title || "Check out this blog post",
+        url: currentUrl
+      }).catch((error) => {
+        console.error("Error sharing:", error)
+      })
+    } else {
+      navigator.clipboard.writeText(currentUrl).then(() => {
+        toast.success("Link copied to clipboard.")
+      }).catch((error) => {
+        console.error("Error copying link to clipboard:", error)
+      })
+    }
+  }
 
   useEffect(() => {
     if(!id) return;
@@ -128,7 +155,6 @@ if (loading) {
           <CardTitle className="text-3xl font-bold">{post.title}</CardTitle>
           <div className="flex items-center space-x-2">
             <Avatar className="h-10 w-10">
-              <AvatarImage src={post.author?.avatar || ""} alt={post.author?.name} />
               <AvatarFallback>{post.author?.name.split(' ').map(n => n[0]).join('').toUpperCase()}</AvatarFallback>
             </Avatar>
             <div>
@@ -148,27 +174,22 @@ if (loading) {
           <Separator />
           <div className="flex justify-between items-center w-full">
             <div className="flex space-x-4">
-              <Button
-                variant="ghost"
-                size="sm"
-                className={`flex items-center space-x-1 ${isLiked ? 'text-red-500' : ''}`}
+              <button
+                className={`flex items-center space-x-2 ${isLiked ? 'text-red-500' : ''}`}
                 onClick={() => handleLike(post?.id)}
               >
-                <Heart className={`w-4 h-4 ${isLiked ? 'fill-current' : ''}`} />
+                <Heart className={`w-[18px] h-[18px] ${isLiked ? 'fill-current' : ''}`} />
                 <span>{post.likeCount}</span>
-              </Button>
-              <Button variant="ghost" size="sm" className="flex items-center space-x-1">
-                <MessageCircle className="w-4 h-4" />
-                <span>{post.commentCount}</span>
-              </Button>
+              </button>
             </div>
-            <Button variant="ghost" size="sm" className="flex items-center space-x-1">
+            <Button variant="ghost" size="sm" className="flex items-center space-x-1" onClick={handleShare}>
               <Share2 className="w-4 h-4" />
               <span>Share</span>
             </Button>
           </div>
         </CardFooter>
       </Card>
+      <CommentSection initialComments={post.comments} postId={post.id} />
     </div>
   )
 }
