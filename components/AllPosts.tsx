@@ -19,13 +19,17 @@ interface Post {
     title: string;
     content: string;
     category: string;
+    likeCount: number;
+    commentCount: number;
     author: Author;
     likes: number;
     comments: number;
+    likedByCurrentUser: boolean;
 }
 
 export default function AllPosts() {
     const [posts, setPosts] = useState<Post[]>([]);
+    const [loading, setLoading] = useState(true);
 
     useEffect(() => {
         const fetchPosts = async () => {
@@ -36,9 +40,11 @@ export default function AllPosts() {
             if(!data){
                 toast.error("Couldn't fetch posts.");
             }
+            setLoading(false);
             setPosts(data);
 
             } catch(error) {
+                setLoading(false)
                 console.error("Error fetching posts:", error);
             }
         }
@@ -50,6 +56,47 @@ export default function AllPosts() {
         return content.slice(0, length) + "...";
     };
 
+    const handleLike = async (postId: string) => {
+        const loadingToastId = toast.loading("Updating the like...")
+        try {
+            const res = await fetch("/api/post-like", {
+                method: "PATCH",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({ postId })
+            })
+
+            const data = await res.json();
+
+            if(!res.ok){
+                toast.dismiss(loadingToastId);
+                toast.error(data.error || "Something went wrong.")
+            }
+            toast.dismiss(loadingToastId);
+            toast.success(data.message);
+            setPosts((prevPosts) =>
+                prevPosts.map((post) =>
+                    post.id === postId
+                 ? { ...post, likes: data.likeCount ,   likedByCurrentUser: !post.likedByCurrentUser }
+                 : post
+                )
+            );
+        } catch (error) {
+            console.error("Error updating like:", error);
+            toast.error("Something went wrong.");
+        }
+    }
+    
+    if (loading) {
+        return (
+            <div className="container mx-auto py-10">
+                <div className="flex justify-center items-center">
+                    <div className="loader">Loading...</div>
+                </div>
+            </div>
+        );
+    }
 
   return (
     <div className="container mx-auto py-10">
@@ -81,13 +128,18 @@ export default function AllPosts() {
               <Separator />
               <div className="flex justify-between items-center w-full">
                 <div className="flex space-x-7">
-                  <button className="flex items-center space-x-1">
-                    <Heart className="w-5 h-5 hover:fill-red-500 hover:border-red-500" />
-                    <span>{post.likes}</span>
+                  <button onClick={()=> handleLike(post.id)} className={`flex items-center space-x-1 ${
+                    post.likedByCurrentUser ? "text-red-500" : "text-black"
+                  }`}>
+                    <Heart
+                      className={`w-5 h-5 ${
+                        post.likedByCurrentUser ? "fill-red-500" : "hover:fill-red-500"
+                      }`} />
+                    <span>{post.likeCount}</span>
                   </button>
                   <button className="flex items-center space-x-1">
                     <MessageCircle className="w-5 h-5" />
-                    <span>{post.comments}</span>
+                    <span>{post.commentCount}</span>
                   </button>
                 </div>
                 <Button variant="outline" size="sm" asChild>
