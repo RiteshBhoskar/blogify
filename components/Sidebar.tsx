@@ -52,6 +52,7 @@ import { useSession } from "next-auth/react";
 import React from "react";
 import { Breadcrumb, BreadcrumbItem, BreadcrumbLink, BreadcrumbList } from "./ui/breadcrumb";
 import LogOutButton from "./Signout";
+import Image from "next/image";
 
 const data = {
   navMain: [
@@ -89,7 +90,7 @@ export default function BloggingSidebar({ children } : { children: React.ReactNo
               <SidebarMenuButton size="lg" asChild>
                 <a href="/home">
                   <div className="flex aspect-square items-center justify-center rounded-lg bg-white">     
-                      <img src="/blogify.png" alt="website icon" className="h-6 w-6" />
+                      <Image src="/blogify.png" alt="website icon" height={24} width={24} />
                   </div>
                   <div className="grid flex-1 text-left text-sm leading-tight">
                     <span className=" font-semibold text-lg">Blogging App</span>

@@ -5,13 +5,14 @@ import Link from "next/link";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuGroup, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuShortcut, DropdownMenuTrigger } from "./ui/dropdown-menu";
 import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
 import LogOutButton from "./Signout";
+import Image from "next/image";
 
 export default async function Header() {
     const session = await getServerSession(authOptions);
     return (
         <header className="px-4 lg:px-6 h-14 flex items-center justify-between bg-white dark:bg-gray-800 sticky top-0 z-50 shadow-sm">
         <Link className="flex items-center justify-center" href="/">
-          <img src="/blogify.png" alt="website icon" className="h-6 w-6" />
+          <Image src="/blogify.png" alt="website icon"  height={30} width={30} />
           <span className="ml-2 text-2xl font-bold text-gray-800 dark:text-gray-200">Blogify</span>
         </Link>
         {session ? 
