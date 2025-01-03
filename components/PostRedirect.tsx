@@ -1,7 +1,6 @@
 "use client"
 import { useState } from "react";
 import { Button } from "./ui/button";
-import { Card, CardContent } from "./ui/card";
 import { Input } from "./ui/input";
 import { useRouter } from "next/navigation";
 

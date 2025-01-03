@@ -36,7 +36,6 @@ import {
   SidebarContent,
   SidebarFooter,
   SidebarGroup,
-  SidebarGroupContent,
   SidebarGroupLabel,
   SidebarHeader,
   SidebarInset,
@@ -58,55 +57,20 @@ const data = {
   navMain: [
     {
       title: "Dashboard",
-      url: "/dashboard",
       icon: LayoutDashboard,
-      isActive: true,
-      items: [
-        {
-          title: "Overview",
-          url: "/dashboard/overview",
-        },
-        {
-          title: "Stats",
-          url: "/dashboard/stats",
-        },
-      ],
     },
     {
       title: "Posts",
-      url: "/posts",
       icon: FileText,
-      items: [
-        {
-          title: "All Posts",
-          url: "/posts/all",
-        },
-        {
-          title: "New Post",
-          url: "/posts/new",
-        },
-      ],
     },
     {
-      title: "Profile",
-      url: "/profile",
-      icon: User,
+      title: "Create Post",
+      icon: Pencil,
     },
     {
       title: "Settings",
-      url: "/settings",
       icon: Settings2,
-      items: [
-        {
-          title: "General",
-          url: "/settings/general",
-        },
-        {
-          title: "Account",
-          url: "/settings/account",
-        },
-      ],
-    },
+    }
   ],
 };
 
@@ -128,55 +92,30 @@ export default function BloggingSidebar({ children } : { children: React.ReactNo
                     <Pencil />
                   </div>
                   <div className="grid flex-1 text-left text-sm leading-tight">
-                    <span className="truncate font-semibold text-lg">Blogging App</span>
+                    <span className=" font-semibold text-lg">Blogging App</span>
                   </div>
                 </a>
               </SidebarMenuButton>
             </SidebarMenuItem>
           </SidebarMenu>
         </SidebarHeader>
-        
-        <SidebarContent className="relative">
-          <SidebarGroup>
-            <SidebarGroupLabel>Main Menu</SidebarGroupLabel>
-            <SidebarMenu>
-              {data.navMain.map((item) => (
-                <Collapsible
-                  key={item.title}
-                  asChild
-                  defaultOpen={item.isActive}
-                  className="group/collapsible"
-                >
-                  <SidebarMenuItem>
-                    <CollapsibleTrigger asChild>
-                      <SidebarMenuButton size="lg">
-                        <item.icon className="size-4" />
-                        <div className="grid flex-1 text-left text-sm leading-tight">
-                          <span className="truncate font-thin">{item.title}</span>
-                        </div>
-                        {item.items && (
-                          <ChevronRight className="transition-transform duration-200 group-data-[state=open]/collapsible:rotate-90" />
-                        )}
-                      </SidebarMenuButton>
-                    </CollapsibleTrigger>
-                    <CollapsibleContent>
-                     <SidebarMenuSub>
-                        {item.items?.map((subItem) => (
-                          <SidebarMenuSubItem key={subItem.title}>
-                            <SidebarMenuSubButton href={subItem.url}>
-                              {subItem.title}
-                            </SidebarMenuSubButton>
-                          </SidebarMenuSubItem>
-                        ))}
-                     </SidebarMenuSub>
-                    </CollapsibleContent>
-                  </SidebarMenuItem>
-                </Collapsible>
-              ))}
-            </SidebarMenu>
-          </SidebarGroup>
-        </SidebarContent>
 
+        <SidebarContent>
+          <SidebarMenu>
+            <SidebarGroup>
+              <SidebarGroupLabel>Navigation</SidebarGroupLabel>
+              {data.navMain.map((item, index) => (
+                <SidebarMenuItem key={index}>
+                  <SidebarMenuButton size="lg">
+                    <item.icon className="size-4" />
+                    <span className="">{item.title}</span>
+                    <ChevronRight className="ml-auto size-4" />
+                  </SidebarMenuButton>
+                </SidebarMenuItem>
+              ))}
+            </SidebarGroup>
+          </SidebarMenu>
+        </SidebarContent>
 
         <SidebarFooter>
           <SidebarMenu>
@@ -188,19 +127,15 @@ export default function BloggingSidebar({ children } : { children: React.ReactNo
                     className="data-[state=open]:bg-sidebar-accent"
                   >
                     <Avatar className="h-8 w-8 rounded-lg">
-                      <AvatarImage
-                        src="/user-avatar.png"
-                        alt="User avatar"
-                      />
                       <AvatarFallback className="rounded-lg">
                         U
                       </AvatarFallback>
                     </Avatar>
                     <div className="grid flex-1 text-left text-sm leading-tight">
-                      <span className="truncate font-semibold">
+                      <span className=" font-semibold">
                         {session?.user.name}
                       </span>
-                      <span className="truncate text-xs">
+                      <span className=" text-xs">
                         {session?.user.email}
                       </span>
                     </div>
@@ -208,7 +143,7 @@ export default function BloggingSidebar({ children } : { children: React.ReactNo
                   </SidebarMenuButton>
                 </DropdownMenuTrigger>
                 <DropdownMenuContent
-                  className="w-[--radix-dropdown-menu-trigger-width] min-w-56 rounded-lg"
+                  className="min-w-56 rounded-lg"
                   side="bottom"
                   align="end"
                   sideOffset={4}
