@@ -1,21 +1,12 @@
 import Link from 'next/link'
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { Pencil, Feather, Share2, Zap, ArrowRight } from 'lucide-react'
+import { Feather, Share2, Zap, ArrowRight } from 'lucide-react'
 import { authOptions } from '@/lib/auth'
 import { getServerSession } from 'next-auth'
 
 export default async function LandingPage() {
-  const session = await getServerSession(authOptions);
 
-  if (session) {
-    return {
-      redirect: {
-        destination: "/home",
-        permanent: false,
-      },
-    };
-  }
   return (
     <div className="flex flex-col min-h-screen bg-gray-50 dark:bg-gray-900">
       <main className="flex-1">
@@ -126,3 +117,19 @@ export default async function LandingPage() {
   )
 }
 
+export async function getServerSideProps() {
+  const session = await getServerSession(authOptions);
+
+  if (session) {
+    return {
+      redirect: {
+        destination: '/home',
+        permanent: false,
+      },
+    };
+  }
+
+  return {
+    props: {},
+  };
+}

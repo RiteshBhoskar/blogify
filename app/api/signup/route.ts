@@ -1,6 +1,6 @@
 import prisma from "@/lib/prisma";
 import { NextRequest, NextResponse } from "next/server";
-import { z } from "zod";
+import { z, ZodError } from "zod";
 import bcrypt from "bcrypt";
 
 
@@ -48,11 +48,16 @@ export async function POST(req: NextRequest) {
 
     return NextResponse.json({success: true , message: "User created successfully." }, { status: 201 });
 
-  } catch (error: any) {
+  } catch (error) {
     console.error(error);
 
-    if(error.name === "ZodError") {
+    if(error instanceof ZodError ) {
         return NextResponse.json({ error: "Invalid Input.", details: error.errors}, { status: 422 });
+    }
+
+    if (error instanceof Error) {
+        console.error(error.message);
+        return NextResponse.json({ error: "An unexpected error occurred. Please try again later." }, { status: 500 });
     }
 
     return NextResponse.json({ error: "An unexpected error occurred. Please try again later." }, { status: 500 });
