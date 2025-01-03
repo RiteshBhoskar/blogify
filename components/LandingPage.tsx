@@ -31,13 +31,21 @@ export default async function LandingPage() {
                 </p>
               </div>
               <div className="flex flex-col sm:flex-row gap-4">
-                <Button size="lg">Get Started</Button>
-                <Button size="lg" variant="outline">Learn More</Button>
+                <Link href="#get-started">
+                <Button  size="lg">
+                  Get Started
+                </Button>
+                </Link>
+                <Link href="#about">
+                <Button size="lg" variant="outline">
+                  Learn More
+                </Button>
+                </Link>
               </div>
             </div>
           </div>
         </section>
-        <section className="w-full py-12 md:py-24 lg:py-32 bg-white dark:bg-gray-800">
+        <section id='features' className="w-full py-12 md:py-24 lg:py-32 bg-white dark:bg-gray-800">
           <div className="container mx-auto px-4 sm:px-6 lg:px-8">
             <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl text-center mb-12 text-gray-900 dark:text-gray-50">Features</h2>
             <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
@@ -59,7 +67,7 @@ export default async function LandingPage() {
             </div>
           </div>
         </section>
-        <section className="w-full py-12 md:py-24 lg:py-32 bg-gray-50 dark:bg-gray-900">
+        <section id='about' className="w-full py-12 md:py-24 lg:py-32 bg-gray-50 dark:bg-gray-900">
           <div className="container mx-auto px-4 sm:px-6 lg:px-8">
             <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl text-center mb-12 text-gray-900 dark:text-gray-50">Testimonials</h2>
             <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
@@ -93,7 +101,7 @@ export default async function LandingPage() {
             </div>
           </div>
         </section>
-        <section className="w-full py-12 md:py-24 lg:py-32 bg-gray-100 dark:bg-gray-800">
+        <section id='get-started' className="w-full py-12 md:py-24 lg:py-32 bg-gray-100 dark:bg-gray-800">
           <div className="container mx-auto px-4 sm:px-6 lg:px-8">
             <div className="flex flex-col items-center space-y-4 text-center">
               <div className="space-y-2">

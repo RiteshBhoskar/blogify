@@ -59,13 +59,13 @@ export default async function Header() {
         </div>
         :
         <nav className="ml-auto flex gap-4 sm:gap-6">
-        <Link className="text-sm font-medium text-gray-600 hover:text-gray-900 dark:text-gray-300 dark:hover:text-gray-50 transition-colors" href="#">
+        <Link className="text-sm font-medium text-gray-600 hover:text-gray-900 dark:text-gray-300 dark:hover:text-gray-50 transition-colors" href="#features">
           Features
         </Link>
-        <Link className="text-sm font-medium text-gray-600 hover:text-gray-900 dark:text-gray-300 dark:hover:text-gray-50 transition-colors" href="#">
+        <Link className="text-sm font-medium text-gray-600 hover:text-gray-900 dark:text-gray-300 dark:hover:text-gray-50 transition-colors" href="#about">
           About
         </Link>
-        <Link className="text-sm font-medium text-gray-600 hover:text-gray-900 dark:text-gray-300 dark:hover:text-gray-50 transition-colors" href="#">
+        <Link className="text-sm font-medium text-gray-600 hover:text-gray-900 dark:text-gray-300 dark:hover:text-gray-50 transition-colors" href="#get-started">
           Contact
         </Link>
       </nav>}

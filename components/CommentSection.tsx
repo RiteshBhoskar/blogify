@@ -54,7 +54,7 @@ export function CommentSection({ postId, initialComments }: CommentSectionProps)
         toast.error(data.error || "Failed to add comment.")
       }
 
-      setComments([...comments, data])
+      setComments([data ,...comments])
       setNewComment('');
       toast.dismiss(loadingToastId)
       toast.success(data.message)
