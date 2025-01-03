@@ -1,7 +1,7 @@
 'use client'
 
-import { useState } from 'react'
-import { useRouter } from 'next/navigation'
+import { useEffect, useState } from 'react'
+import { useRouter, useSearchParams } from 'next/navigation'
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
@@ -45,10 +45,19 @@ const Categories = [
 
 export default function CreatePostPage() {
   const router = useRouter()
+  const searchParams  = useSearchParams();
+  const initialTitle = searchParams.get("title") || "";
+
   const [title, setTitle] = useState('')
   const [content, setContent] = useState('')
   const [category, setCategory] = useState('')
   const [isLoading , setIsLoading] = useState(false);
+
+  useEffect(() => {
+    if(initialTitle){
+      setTitle(initialTitle)
+    }
+  }, [initialTitle])
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();

@@ -1,5 +1,3 @@
-
-
 import Link from 'next/link'
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
@@ -7,6 +5,8 @@ import { Input } from "@/components/ui/input"
 import BloggingSidebar from './Sidebar'
 import { getServerSession } from 'next-auth'
 import { authOptions } from '@/lib/auth'
+import { useState } from 'react'
+import PostRedirect from './PostRedirect'
 
 export default function HomePage() {
     return (
@@ -17,7 +17,7 @@ export default function HomePage() {
 }
 
 async function MainHomePage() {
-    const session = await getServerSession(authOptions);
+  const session = await getServerSession(authOptions);
   const recentPosts = [
     { id: 1, title: "Getting Started with Blogify", excerpt: "Learn how to make the most of your Blogify experience..." },
     { id: 2, title: "10 Tips for Better Blog Writing", excerpt: "Improve your writing skills with these essential tips..." },
@@ -33,22 +33,16 @@ async function MainHomePage() {
   return (
     <div className="max-w-4xl mx-auto space-y-6">
       <h2 className="text-2xl font-bold text-gray-900 dark:text-gray-100">Welcome back, {session?.user.name}</h2>
-      
-      {/* Quick post creation */}
       <Card>
         <CardHeader>
           <CardTitle>What's on your mind?</CardTitle>
           <CardDescription>Share your thoughts with the Blogify community</CardDescription>
         </CardHeader>
         <CardContent>
-          <form className="flex space-x-2">
-            <Input placeholder="Start writing..." className="flex-grow" />
-            <Button type="submit">Post</Button>
-          </form>
+          <PostRedirect />
         </CardContent>
       </Card>
 
-      {/* Recent posts */}
       <Card>
         <CardHeader>
           <CardTitle>Your Recent Posts</CardTitle>
@@ -92,4 +86,3 @@ async function MainHomePage() {
     </div>
   )
 }
-
