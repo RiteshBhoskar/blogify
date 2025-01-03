@@ -100,8 +100,8 @@ export default function AllPosts() {
 
   return (
     <div className="container mx-auto py-10">
-      <h1 className="text-3xl font-bold mb-6">All Posts</h1>
-      <div className="space-y-6">
+      <h1 className="text-center text-3xl font-bold mb-6">All Posts</h1>
+      <div className="space-y-6 px-2">
         {posts.map((post) => (
           <Card key={post.id} className="overflow-hidden">
             <CardHeader className="pb-4">

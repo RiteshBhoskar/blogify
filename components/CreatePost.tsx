@@ -100,7 +100,7 @@ export default function CreatePostPage() {
   }
 
   return (
-    <div className="container mx-auto py-10">
+    <div className="container px-2 mx-auto py-10">
       <Card className="max-w-2xl mx-auto">
         <CardHeader>
           <CardTitle className='text-xl'>Create New Blog Post</CardTitle>

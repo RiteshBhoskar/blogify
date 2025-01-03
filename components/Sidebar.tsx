@@ -88,8 +88,8 @@ export default function BloggingSidebar({ children } : { children: React.ReactNo
             <SidebarMenuItem>
               <SidebarMenuButton size="lg" asChild>
                 <a href="/home">
-                  <div className="flex aspect-square items-center justify-center rounded-lg bg-white">
-                    <Pencil />
+                  <div className="flex aspect-square items-center justify-center rounded-lg bg-white">     
+                      <img src="/blogify.png" alt="website icon" className="h-6 w-6" />
                   </div>
                   <div className="grid flex-1 text-left text-sm leading-tight">
                     <span className=" font-semibold text-lg">Blogging App</span>

@@ -19,7 +19,7 @@ async function MainHomePage() {
   const session = await getServerSession(authOptions);
 
   return (
-    <div className="max-w-4xl mx-auto space-y-6">
+    <div className="max-w-4xl px-2 mx-auto space-y-6">
       <h2 className="text-2xl font-bold text-gray-900 dark:text-gray-100">Welcome back, {session?.user.name}</h2>
       <Card>
         <CardHeader>

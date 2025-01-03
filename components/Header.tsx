@@ -11,15 +11,15 @@ export default async function Header() {
     return (
         <header className="px-4 lg:px-6 h-14 flex items-center justify-between bg-white dark:bg-gray-800 sticky top-0 z-50 shadow-sm">
         <Link className="flex items-center justify-center" href="/">
-          <Pencil className="h-6 w-6 text-gray-800 dark:text-gray-200" />
+          <img src="/blogify.png" alt="website icon" className="h-6 w-6" />
           <span className="ml-2 text-2xl font-bold text-gray-800 dark:text-gray-200">Blogify</span>
         </Link>
         {session ? 
-        <div className="pr-4">
+        <div className="sm:pr-4">
         <DropdownMenu>
             <DropdownMenuTrigger asChild>
                 <Avatar>
-                <AvatarImage src="https://github.com/shadcn.png" alt="@shadcn" />
+                <AvatarImage src="/blogImage.avif" alt="user profile" />
                 <AvatarFallback>U</AvatarFallback>
                 </Avatar>
             </DropdownMenuTrigger>

@@ -22,6 +22,7 @@ interface Comment {
   content: string;
   likes: number;
   createdAt: string;
+  likedByCurrentUser: boolean;
 }
 
 interface Post {
@@ -135,7 +136,7 @@ if (loading) {
 
 
   return (
-    <div className="container mx-auto py-10">
+    <div className="container px-2 mx-auto py-10">
       <Link href={"/home/all-posts"} className="flex items-center text-sm text-gray-500 hover:text-gray-700 mb-6">
         <ArrowLeft className="mr-2 h-4 w-4" />
         Back to All Posts
