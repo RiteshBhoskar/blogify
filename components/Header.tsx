@@ -1,14 +1,13 @@
-import { authOptions } from "@/lib/auth";
-import { Pencil } from "lucide-react";
-import { getServerSession } from "next-auth";
+"use client"
 import Link from "next/link";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuGroup, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuShortcut, DropdownMenuTrigger } from "./ui/dropdown-menu";
 import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
 import LogOutButton from "./Signout";
 import Image from "next/image";
+import { useSession } from "next-auth/react";
 
-export default async function Header() {
-    const session = await getServerSession(authOptions);
+export default function Header() {
+  const { data : session } = useSession();
     return (
         <header className="px-4 lg:px-6 h-14 flex items-center justify-between bg-white dark:bg-gray-800 sticky top-0 z-50 shadow-sm">
         <Link className="flex items-center justify-center" href="/">
